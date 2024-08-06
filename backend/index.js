@@ -1,5 +1,31 @@
 import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import authRouter from "./routes/auth.js";
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGODB_URI, { retryWrites: true })
+  .then(() => {
+    console.log("Mongodb is connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 const app = express();
+
+app.use(express.json());
+
+app.use("/api/auth/", authRouter);
+
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Internal server error";
+  res.status(status).json({ success: false, status, message });
+});
+
 app.listen(3000, () => {
   console.log("server running on port number 3000!!!!!!!!!!!!!");
 });
