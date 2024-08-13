@@ -1,7 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import OAuth from "../components/OAuth";
 const Signup = () => {
   const [formdata, setFormdata] = useState({});
   const [error, setError] = useState(null);
@@ -100,6 +100,7 @@ const Signup = () => {
                 "Sign-up"
               )}
             </Button>
+            <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Have an account?</span>
