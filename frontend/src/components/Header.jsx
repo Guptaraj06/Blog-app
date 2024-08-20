@@ -48,7 +48,11 @@ export default function Header() {
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" img={currentUser.profilePicture} rounded />
+              <Avatar
+                alt="user"
+                img={`${currentUser.profilePicture}`}
+                rounded
+              />
             }
           >
             <Dropdown.Header>
@@ -63,7 +67,7 @@ export default function Header() {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => {}}>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={() => { }}>Sign out</Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to="/sign-in">

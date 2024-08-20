@@ -7,17 +7,20 @@ import Projects from "./pages/Projects";
 import Header from "./components/Header";
 import About from "./pages/About";
 import Footer from "./components/Footer";
+import PrivateRouter from "./components/PrivateRouter";
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/sign-up" element={<Signup />}></Route>
-        <Route path="/sign-in" element={<Signin />}></Route>
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/projects" element={<Projects />}></Route>
-        <Route path="/about" element={<About />}></Route>
+        <Route path="/" element={<Home />} />
+        <Route path="/sign-up" element={<Signup />} />
+        <Route path="/sign-in" element={<Signin />} />
+        <Route element={<PrivateRouter />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <Footer></Footer>
     </BrowserRouter>
