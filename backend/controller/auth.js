@@ -49,7 +49,7 @@ export const signin = async (req, res, next) => {
     const { password, ...rest } = validUser._doc;
     res
       .status(200)
-      .cookie("access the token", token, { httpOnly: true })
+      .cookie("access_token", token, { httpOnly: true })
       .json(rest);
   } catch (err) {
     next(err);
