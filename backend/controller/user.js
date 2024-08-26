@@ -3,23 +3,27 @@ import User from "../model/user.js";
 import bcryptjs from "bcryptjs";
 
 export const updateUser = async (req, res, next) => {
-  if (req.user._id != req.params._id) {
-    next(errorHandler(403, "You are not allowed to update this user"));
+  if (req.user.id !== req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to update this user"));
   }
   if (req.body.username) {
     if (req.body.username.length < 7 || req.body.username.length > 20) {
-      next(errorHandler(400, "username must be between 7 to 20 characters"));
+      return next(
+        errorHandler(400, "username must be between 7 to 20 characters"),
+      );
     }
     if (req.body.username.includes(" ")) {
-      next(errorHandler(400, "username cannot contain spaces"));
+      return next(errorHandler(400, "username cannot contain spaces"));
     }
     if (!req.body.username.match(/^[a-zA-Z0-9]+$/)) {
-      next(errorHandler(400, "username can only contain letters and numbers"));
+      return next(
+        errorHandler(400, "username can only contain letters and numbers"),
+      );
     }
   }
   if (req.body.password) {
     if (req.body.password.length < 6) {
-      next(errorHandler(400, "Password must be at least 6 characters"));
+      return next(errorHandler(400, "Password must be at least 6 characters"));
     }
     req.body.password = bcryptjs.hashSync(req.body.password, 10);
   }
@@ -38,6 +42,18 @@ export const updateUser = async (req, res, next) => {
     );
     const { password, ...rest } = user._doc;
     res.status(200).json(rest);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  if (req.user.id !== req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to delete the user"));
+  }
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    res.status(200).json("user is deleted succeesfully");
   } catch (err) {
     next(err);
   }
