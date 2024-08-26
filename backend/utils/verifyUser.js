@@ -11,7 +11,6 @@ export const verifyToken = async (req, res, next) => {
       next();
     });
   } else {
-    // res.status(400).json({ message: "Unauthorized" });
     next(errorHandler(401, "Unauthorized"));
   }
 };
