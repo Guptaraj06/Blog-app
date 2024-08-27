@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from "./routes/auth.js";
 import cors from "cors";
+import postRouter from "./routes/post.js";
 import userRouter from "./routes/user.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -22,8 +23,9 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.use("/api/auth/", authRouter);
-app.use("/api/user/", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/post", postRouter);
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Internal server error";

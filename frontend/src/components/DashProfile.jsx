@@ -15,10 +15,12 @@ import {
   deleteSuccess,
   deleteFailure,
   deleteStart,
+  signoutSuccess,
 } from "../redux/user/user";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 const DashProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
@@ -125,6 +127,19 @@ const DashProfile = () => {
       dispatch(deleteFailure(err.message));
     }
   };
+  const handleSignout = async () => {
+    try {
+      const res = await fetch("/api/user/signout/");
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   return (
     <div className="max-w-lg w-full mx-auto p-3">
       <h1 className="my-7 text-center text-3xl font-semibold">Profile</h1>
@@ -154,9 +169,8 @@ const DashProfile = () => {
                   left: 0,
                 },
                 path: {
-                  stroke: `rgba(62, 152, 199, ${
-                    imageFileUploadProgress / 100
-                  })`,
+                  stroke: `rgba(62, 152, 199, ${imageFileUploadProgress / 100
+                    })`,
                 },
               }}
             />
@@ -164,11 +178,10 @@ const DashProfile = () => {
           <img
             src={imageFileUrl || `${currentUser.profilePicture}`}
             alt="user"
-            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
-              imageFileUploadProgress &&
+            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
               "opacity-60"
-            }`}
+              }`}
           />
         </div>
         {imageFileUploadError && (
@@ -202,13 +215,27 @@ const DashProfile = () => {
         >
           {loading ? "loading..." : "Update"}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to="/create-post">
+            <Button
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Create a Post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
           {" "}
           Delete Account
         </span>
-        <span className="cursor-pointer"> Sign out</span>
+        <span onClick={handleSignout} className="cursor-pointer">
+          {" "}
+          Sign out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
