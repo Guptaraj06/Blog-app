@@ -10,7 +10,11 @@ dotenv.config();
 
 mongoose
   .connect(process.env.MONGODB_URI, { retryWrites: true })
-  .then(() => {
+  .then(async () => {
+    // const indexes = await Post.collection.indexes();
+    // console.log(indexes);
+    // await Post.collection.dropIndex("userId_1"); // Replace with the correct index name
+    // console.log("Index dropped successfully");
     console.log("Mongodb is connected");
   })
   .catch((err) => {
