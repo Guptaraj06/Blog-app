@@ -11,11 +11,13 @@ import PrivateRouter from "./components/PrivateRouter";
 import OnlyAdminPrivateRouter from "./components/OnlyAdminPrivateRouter";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
+import ScrollToTop from "./components/ScrollToTop";
 import PostPage from "./pages/PostPage";
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<Signup />} />
