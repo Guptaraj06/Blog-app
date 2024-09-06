@@ -5,7 +5,10 @@ import authRouter from "./routes/auth.js";
 import cors from "cors";
 import postRouter from "./routes/post.js";
 import userRouter from "./routes/user.js";
+
+import commentRouter from "./routes/comment.js";
 import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 mongoose
@@ -30,6 +33,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
+app.use("/api/comment", commentRouter);
+
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Internal server error";
