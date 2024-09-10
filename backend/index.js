@@ -5,7 +5,7 @@ import authRouter from "./routes/auth.js";
 import cors from "cors";
 import postRouter from "./routes/post.js";
 import userRouter from "./routes/user.js";
-
+import path from "path";
 import commentRouter from "./routes/comment.js";
 import cookieParser from "cookie-parser";
 
@@ -24,6 +24,8 @@ mongoose
     console.log(err);
   });
 
+const __dirname = path.resolve();
+
 const app = express();
 
 app.use(express.json());
@@ -34,6 +36,12 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
+
+app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+});
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
